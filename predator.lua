@@ -6,20 +6,19 @@
 ]]
 
 -- Constants
-local IMMOBILIZATION_PHASE = 50 -- Distance threshold to tighten formation
-local IMMOBILIZATION_DIST = 15 -- Distance threshold to immobilize the prey
+local IMMOBILIZATION_PHASE = 95-- Distance threshold to tighten formation
+local IMMOBILIZATION_DIST = 10 -- Distance threshold to immobilize the prey
 local MAX_SPEED = 10 -- Maximum wheel speed for robots
-local MAX_TURN_RATE = 20
+local MAX_TURN_RATE = 15
 
 -- Variables with initial values
-local targetDist = 80 -- Initial target distance between robots in cm for hexagonal pattern
-local epsilon = 100 -- Initial depth of the potential well, affects force strength
-local preyImportance = 50 -- Initial influence of prey on movement direction
+local targetDist = 300 -- Initial target distance between robots in cm for hexagonal pattern
+local epsilon = 10 -- Initial depth of the potential well, affects force strength
+local preyImportance = 90000 -- Initial influence of prey on movement direction
 
 -- Initialize simulation by enabling sensors and initializing data
 function init()
     robot.colored_blob_omnidirectional_camera.enable()
-    robot.range_and_bearing.set_data(1, 1) -- Broadcast presence to other robots
     robot.leds.set_all_colors("black") -- Initial color indicating ready state
 
 end
@@ -31,10 +30,11 @@ function step()
         if preyDistance <= IMMOBILIZATION_PHASE then
             -- Envoyer un signal pour changer targetDist à 10 pour tous les robots
             
-            targetDist = 20
-            robot.leds.set_all_colors("purple") -- Indicate immobilizing action
+            robot.leds.set_all_colors("green") -- Indicate immobilizing action
             
             if preyDistance < IMMOBILIZATION_DIST then
+                targetDist = 20
+                MAX_TURN_RATE = 7
                 -- Stop the robot if close enough to the prey
                 robot.wheels.set_velocity(0, 0)
                 robot.leds.set_all_colors("blue") -- Indicate complete immobilization
@@ -43,20 +43,64 @@ function step()
             end
         else
             UpdateTarget()
-            local target_angle = computeOptimalAngle(preyAngle, true)
+            local target_angle = computeOptimalAngle(preyAngle, 0, true, false) 
             local speeds = computeWheelSpeeds(target_angle)
             robot.wheels.set_velocity(speeds[1], speeds[2])
             robot.leds.set_all_colors("yellow")  -- Indiquer le déplacement vers la proie
+            robot.range_and_bearing.set_data(1, 2) -- Indicate active pursuit
         end
     else
-        local target_angle = computeOptimalAngle(0, false)  -- Utiliser un angle fictif lorsque la proie n'est pas détectée
-        local speeds = computeWheelSpeeds(target_angle)
-        robot.wheels.set_velocity(speeds[1], speeds[2])
-        robot.leds.set_all_colors("green")  -- Indiquer la recherche de la proie
+        followLeader()
     end
 
     robot.range_and_bearing.clear_data()  -- Effacer les données de communication pour la prochaine étape
 end
+
+function followLeader()
+    local leaderFound = false
+    local leaderAngle = 0
+    local leaderDistance = math.huge
+    local bestColorPriority = math.huge  -- Lower means higher priority
+
+    for i, blob in ipairs(robot.colored_blob_omnidirectional_camera) do
+        local colorPriority = getColorPriority(blob.color)
+        if colorPriority < bestColorPriority then
+            leaderFound = true
+            leaderDistance = blob.distance
+            leaderAngle = blob.angle
+            bestColorPriority = colorPriority
+        elseif colorPriority == bestColorPriority and blob.distance < leaderDistance then
+            leaderDistance = blob.distance
+            leaderAngle = blob.angle
+        end
+    end
+    
+    if leaderFound then
+        local target_angle = computeOptimalAngle(0, leaderAngle, false, true)
+        local speeds = computeWheelSpeeds(target_angle)
+        robot.wheels.set_velocity(speeds[1]/1.5, speeds[2]/1.5)
+        robot.leds.set_all_colors("magenta")  -- following leader
+    else
+        local target_angle = computeOptimalAngle(0, 0, false, false)
+        local speeds = computeWheelSpeeds(target_angle)
+        robot.wheels.set_velocity(speeds[1], speeds[2])
+        robot.leds.set_all_colors("purple")  -- maintaining formation
+    end
+end
+
+-- Define a function to assign priority to colors
+function getColorPriority(color)
+    if color.red == 0 and color.green == 0 and color.blue > 240 then
+        return 1  -- Highest priority: Blue, immobilization state
+    elseif color.red > 240 and color.green > 240 and color.blue < 5 then
+        return 2  -- Medium priority: Yellow, active movement
+    elseif color.red == 0 and color.green > 240 and color.blue == 0 then
+        return 3  -- Lower priority: Purple, formation state
+    end
+    return 1000  -- Default for unrecognized colors
+end
+
+
 
 -- Detect the prey based on color and return its angle and distance
 function detectPrey()
@@ -90,13 +134,18 @@ end
 
 
 -- Compute the optimal movement direction using Lennard-Jones potential
-function computeOptimalAngle(preyAngle, preyDetected)
+function computeOptimalAngle(preyAngle, leaderAngle, preyDetected, isFollowing)
     local sum_vector = {x = 0, y = 0}
 
     for i, message in ipairs(robot.range_and_bearing) do
         local lj_force = computeLennardJonesForce(message.range)
         sum_vector.x = sum_vector.x + math.cos(message.horizontal_bearing) * lj_force
         sum_vector.y = sum_vector.y + math.sin(message.horizontal_bearing) * lj_force
+    end
+    
+    if isFollowing then
+        sum_vector.x = sum_vector.x + math.cos(leaderAngle)
+        sum_vector.y = sum_vector.y + math.sin(leaderAngle)
     end
 
     if preyDetected then
@@ -147,7 +196,7 @@ end
 -- Reset function to clear any persistent state
 function reset()
     robot.range_and_bearing.clear_data()
-    targetDist = 80
+    targetDist = 300
 end
 
 -- Cleanup resources on simulation end
