@@ -41,10 +41,10 @@
         <footbot_proximity implementation="default" show_rays="false" />
       </sensors>
       <!-- If you want to execute ARGoS with an empty script, use this syntax -->
-      <params/>
+   
       <!-- If you want to execute ARGoS with a script preloaded, use this syntax
            Note: the preloaded script does not appear in the Lua editor! (that's a TODO) -->
-      <!--params script="predator.lua" /-->
+      <params script="predator.lua" />
     </lua_controller>
 
     <lua_controller id="prey">
