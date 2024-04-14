@@ -1,26 +1,33 @@
---[[ 
-  Hexagonal Pattern Formation with Prey Targeting and Visual Feedback
-  This script enables robots to autonomously arrange into a hexagonal pattern using Lennard-Jones potential.
-  Robots adjust their movement to approach and potentially immobilize detected prey while maintaining the formation.
-  Visual feedback via LED colors indicates different robot states.
-]]
-
 -- Constants
-local IMMOBILIZATION_PHASE = 95-- Distance threshold to tighten formation
-local IMMOBILIZATION_DIST = 10 -- Distance threshold to immobilize the prey
 local MAX_SPEED = 10 -- Maximum wheel speed for robots
-local MAX_TURN_RATE = 15
+local IMMOBILIZATION_DIST = 10 -- Distance threshold to immobilize the prey
+local MAX_DIST = 100 -- Maximum initial target distance between robots
+local MIN_DIST = 10 -- Minimum target distance when close to prey
+local MAX_IMPORTANCE = 20000 -- Maximum importance of prey
+local MIN_IMPORTANCE = 100 -- Minimum importance when prey is far
+local ALPHA = 0.7 -- Sensitivity factor for distance adjustment
+local BETA = 0.7 -- Sensitivity factor for importance adjustment
+local epsilon = 10 -- Initial depth of the potential well, affects force strength
+local IMMOBILIZATION_PHASE = 30-- Distance threshold to tighten formation
+
+-- New Constants for Slower Updates
+local ALPHA_SLOW = 0.009 -- Reduced sensitivity for distance adjustment during move-toward phase
+local BETA_SLOW = 0.009 -- Reduced sensitivity for importance adjustment during move-toward phase
 
 -- Variables with initial values
-local targetDist = 300 -- Initial target distance between robots in cm for hexagonal pattern
-local epsilon = 10 -- Initial depth of the potential well, affects force strength
-local preyImportance = 90000 -- Initial influence of prey on movement direction
+local targetDist = MAX_DIST -- Initial target distance between robots
+local preyImportance = MIN_IMPORTANCE -- Initial influence of prey on movement direction
 
 -- Initialize simulation by enabling sensors and initializing data
 function init()
     robot.colored_blob_omnidirectional_camera.enable()
     robot.leds.set_all_colors("black") -- Initial color indicating ready state
+end
 
+-- Function to update distance and importance based on prey distance
+function updateParameters(preyDistance, ALPHA, BETA)
+    targetDist = MAX_DIST - (MAX_DIST - MIN_DIST) * (1 - math.exp(-ALPHA * preyDistance))
+    preyImportance = (MAX_IMPORTANCE - MIN_IMPORTANCE) * (1 - math.exp(-BETA * preyDistance)) + MIN_IMPORTANCE
 end
 
 -- Main control loop
@@ -28,32 +35,31 @@ function step()
     local preyDetected, preyAngle, preyDistance = detectPrey()
     if preyDetected then
         if preyDistance <= IMMOBILIZATION_PHASE then
-            -- Envoyer un signal pour changer targetDist à 10 pour tous les robots
-            
+            -- Use faster update when close to immobilization phase
             robot.leds.set_all_colors("green") -- Indicate immobilizing action
-            
-            if preyDistance < IMMOBILIZATION_DIST then
-                targetDist = 20
-                MAX_TURN_RATE = 7
-                -- Stop the robot if close enough to the prey
-                robot.wheels.set_velocity(0, 0)
-                robot.leds.set_all_colors("blue") -- Indicate complete immobilization
-            else
-                moveTowardsPrey(preyAngle)
-            end
+            updateParameters(preyDistance, ALPHA, BETA)
+        elseif preyDistance > IMMOBILIZATION_PHASE then
+            -- Use slower update during general move-toward phase
+            robot.leds.set_all_colors("yellow") -- Indicate mobilizing action
+            updateParameters(preyDistance, ALPHA_SLOW, BETA_SLOW)
+        end
+
+        if preyDistance < IMMOBILIZATION_DIST then
+            -- Stop the robot if close enough to the prey
+            robot.wheels.set_velocity(0, 0)
+            robot.leds.set_all_colors("blue") -- Indicate complete immobilization
         else
-            UpdateTarget()
-            local target_angle = computeOptimalAngle(preyAngle, 0, true, false) 
+            -- Move towards prey
+            local target_angle = computeOptimalAngle(preyAngle, 0, true, false)
             local speeds = computeWheelSpeeds(target_angle)
             robot.wheels.set_velocity(speeds[1], speeds[2])
-            robot.leds.set_all_colors("yellow")  -- Indiquer le déplacement vers la proie
             robot.range_and_bearing.set_data(1, 2) -- Indicate active pursuit
         end
     else
         followLeader()
     end
 
-    robot.range_and_bearing.clear_data()  -- Effacer les données de communication pour la prochaine étape
+    robot.range_and_bearing.clear_data() -- Clear communication data for the next step
 end
 
 function followLeader()
@@ -100,8 +106,6 @@ function getColorPriority(color)
     return 1000  -- Default for unrecognized colors
 end
 
-
-
 -- Detect the prey based on color and return its angle and distance
 function detectPrey()
     local preyDetected = false
@@ -119,19 +123,6 @@ function detectPrey()
     end
     return preyDetected, closestPreyAngle, closestPreyDistance
 end
-
-function UpdateTarget()
-       
-    for i, blob in ipairs(robot.colored_blob_omnidirectional_camera) do
-        -- Detect blu color as a predator
-        if blob.color.red == 0 and blob.color.green == 0 and blob.color.blue > 240 then
-            targetDist = 20
-            return 
-        end
-    end
-end
-
-
 
 -- Compute the optimal movement direction using Lennard-Jones potential
 function computeOptimalAngle(preyAngle, leaderAngle, preyDetected, isFollowing)
@@ -174,33 +165,14 @@ function computeWheelSpeeds(target_angle)
     }
 end
 
--- Function to move towards the detected prey
-function moveTowardsPrey(angle)
-    local turnRate = calculateTurnRate(angle)
-
-    -- Adjust velocities based on the turn rate to steer towards the prey
-    if angle > 0 then
-        robot.wheels.set_velocity(MAX_SPEED - turnRate, MAX_SPEED)
-    else
-        robot.wheels.set_velocity(MAX_SPEED, MAX_SPEED - turnRate)
-    end
-end
-
--- Function to calculate the turn rate based on the angle to the prey
-function calculateTurnRate(angle)
-    -- This function maps the angle to a turn rate, ensuring smoother turning
-    -- The mapping can be adjusted based on testing and desired behavior
-    return MAX_TURN_RATE * math.abs(angle) / math.pi  -- Proportional to the absolute angle
-end
-
 -- Reset function to clear any persistent state
 function reset()
+    targetDist = MAX_DIST
+    preyImportance = MIN_IMPORTANCE
     robot.range_and_bearing.clear_data()
-    targetDist = 300
 end
 
 -- Cleanup resources on simulation end
 function destroy()
     -- Any necessary cleanup code
 end
-
