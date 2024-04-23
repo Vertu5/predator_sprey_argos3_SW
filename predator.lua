@@ -2,21 +2,26 @@
 local MAX_SPEED = 10 -- Maximum wheel speed for robots
 local IMMOBILIZATION_DIST = 10 -- Distance threshold to immobilize the prey
 local MAX_DIST = 100 -- Maximum initial target distance between robots
-local MIN_DIST = 10 -- Minimum target distance when close to prey
-local MAX_IMPORTANCE = 20000 -- Maximum importance of prey
+local MIN_DIST = 8 -- Minimum target distance when close to prey
+local MAX_IMPORTANCE = 150000 -- Maximum importance of prey
 local MIN_IMPORTANCE = 100 -- Minimum importance when prey is far
-local ALPHA = 0.7 -- Sensitivity factor for distance adjustment
-local BETA = 0.7 -- Sensitivity factor for importance adjustment
-local epsilon = 10 -- Initial depth of the potential well, affects force strength
-local IMMOBILIZATION_PHASE = 30-- Distance threshold to tighten formation
+local ALPHA = 0.09 -- Sensitivity factor for distance adjustment
+local BETA = 0.09 -- Sensitivity factor for importance adjustment
+local Max_strength = 30
+local Min_strength = 10
+local IMMOBILIZATION_PHASE = 55 -- Distance threshold to tighten formation
+local Max_turn = 30
+local Min_turn = 10
 
 -- New Constants for Slower Updates
 local ALPHA_SLOW = 0.009 -- Reduced sensitivity for distance adjustment during move-toward phase
 local BETA_SLOW = 0.009 -- Reduced sensitivity for importance adjustment during move-toward phase
 
 -- Variables with initial values
-local targetDist = MAX_DIST -- Initial target distance between robots
+local desireDist = MAX_DIST -- Initial target distance between robots
 local preyImportance = MIN_IMPORTANCE -- Initial influence of prey on movement direction
+local epsilon = Max_strength -- Initial depth of the potential well, affects force strength
+local turn_rate = Min_turn
 
 -- Initialize simulation by enabling sensors and initializing data
 function init()
@@ -26,8 +31,11 @@ end
 
 -- Function to update distance and importance based on prey distance
 function updateParameters(preyDistance, ALPHA, BETA)
-    targetDist = MAX_DIST - (MAX_DIST - MIN_DIST) * (1 - math.exp(-ALPHA * preyDistance))
-    preyImportance = (MAX_IMPORTANCE - MIN_IMPORTANCE) * (1 - math.exp(-BETA * preyDistance)) + MIN_IMPORTANCE
+    desireDist = MAX_DIST - (MAX_DIST - MIN_DIST) * (1 - math.exp(-ALPHA * preyDistance))
+    preyImportance = MIN_IMPORTANCE + (MAX_IMPORTANCE - MIN_IMPORTANCE) * (1 - math.exp(-BETA * preyDistance))  
+    epsilon = Max_strength - (Max_strength - Min_strength) * (1 - math.exp(-ALPHA * preyDistance)) 
+    turn_rate = Min_turn + (Max_turn - Min_turn) * (1 - math.exp(-BETA * preyDistance)) 
+    
 end
 
 -- Main control loop
@@ -51,7 +59,7 @@ function step()
         else
             -- Move towards prey
             local target_angle = computeOptimalAngle(preyAngle, 0, true, false)
-            local speeds = computeWheelSpeeds(target_angle)
+            local speeds = computeWheelSpeeds(turn_rate, target_angle)
             robot.wheels.set_velocity(speeds[1], speeds[2])
             robot.range_and_bearing.set_data(1, 2) -- Indicate active pursuit
         end
@@ -83,12 +91,12 @@ function followLeader()
     
     if leaderFound then
         local target_angle = computeOptimalAngle(0, leaderAngle, false, true)
-        local speeds = computeWheelSpeeds(target_angle)
-        robot.wheels.set_velocity(speeds[1]/1.5, speeds[2]/1.5)
-        robot.leds.set_all_colors("magenta")  -- following leader
+        local speeds = computeWheelSpeeds(1, target_angle)
+        robot.wheels.set_velocity(speeds[1], speeds[2])
+        robot.leds.set_all_colors("orange")  -- following leader
     else
         local target_angle = computeOptimalAngle(0, 0, false, false)
-        local speeds = computeWheelSpeeds(target_angle)
+        local speeds = computeWheelSpeeds(1, target_angle)
         robot.wheels.set_velocity(speeds[1], speeds[2])
         robot.leds.set_all_colors("purple")  -- maintaining formation
     end
@@ -148,27 +156,28 @@ function computeOptimalAngle(preyAngle, leaderAngle, preyDetected, isFollowing)
 end
 
 -- Compute Lennard-Jones force based on the dynamically adjusted distance from another robot
-function computeLennardJonesForce(distance)
-    local r_ratio = targetDist / distance
-    return -4 * epsilon * (math.pow(r_ratio, 12) - math.pow(r_ratio, 6)) / distance
+function computeLennardJonesForce(real_distance)
+    local r_ratio = desireDist / real_distance
+    return -4 * epsilon * (math.pow(r_ratio, 12) - math.pow(r_ratio, 6)) / real_distance
 end
 
 -- Compute wheel speeds based on the target angle to steer the robot
-function computeWheelSpeeds(target_angle)
+function computeWheelSpeeds(rate, target_angle)
     local forward_component = math.cos(target_angle)
-    local angular_velocity = 20 * target_angle
-    local wheels_distance = 14 -- distance between wheels in cm
-
+    local angular_velocity = rate * target_angle
+    
     return {
-        forward_component * MAX_SPEED - angular_velocity * wheels_distance / 2,
-        forward_component * MAX_SPEED + angular_velocity * wheels_distance / 2
+        forward_component * MAX_SPEED - angular_velocity,
+        forward_component * MAX_SPEED + angular_velocity
     }
 end
 
 -- Reset function to clear any persistent state
 function reset()
-    targetDist = MAX_DIST
+    desireDist = MAX_DIST
     preyImportance = MIN_IMPORTANCE
+    turn_rate = Min_turn
+    epsilon = Max_strength
     robot.range_and_bearing.clear_data()
 end
 
