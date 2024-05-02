@@ -3,28 +3,32 @@
 ## Overview:
 This project focuses on developing and evaluating control software for a swarm of robots tasked with capturing a mobile intruder (prey) in a predator-prey scenario. The study explores the use of swarm intelligence and collective behavior to efficiently locate and immobilize the prey. Key objectives include understanding the scalability and locality properties of swarms and designing cooperative swarm robots.
 
-## 						 PROJECT ROOT
+## PROJECT ROOT
 
-		|-- Results/	                           		# Contains all results
-		|    |-- locality/                    			# An example of file
-                |    |    |
-		|    |    |--cam/                       		#
-                |    |    |--range_and bearing/         		#
-		|    |                                  		#
-                |    |-- Scalability/                   		#
-                |    |                                  		#
-		|    |-- Statistics_analysis/           		#
-                |
-		|-- build/             	                		# An empty file
-		| 
-		|-- predator.lua                 			# 
-		|-- prey.lua                     			# 
+|-- Results/                             # Directory containing all project results
+|   |-- locality/                        # Directory for locality data
+|   |   |-- cam/                         # Directory for camera-related results
+|   |   |-- range_and_bearing/           # Directory for range and bearing results
+|   |
+|   |-- Scalability/                     # Directory for scalability analysis results
+|   |
+|   |-- Statistics_analysis/             # Directory for statistical analysis results
+|
+|-- build/                               # Directory for build-related files
+|-- src/                                 # Directory for source code
+| 
+|-- predator.lua                         # Lua script for predator behavior
+|-- prey.lua                             # Lua script for prey behavior
+|
+|-- Project description.pdf              # Project description document
+|-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
+|-- Paper.pdf                            # Research paper associated with the project
+|-- Extend.pdf                           # Additional document extending project findings
+|-- build.sh                             # Script for building the project
+|-- combine_outputs.sh                   # Script for combining project outputs
+|-- run_experiments.sh                   # Script for running project experiments
+|-- ************************************************************************
 
-		|-- Project description.pdf             		# 
-		|-- instable_state_seed_88852.mp4                  	# 
-		|-- Paper.pdf						#  
-                |-- Extend.pdf                                          #
-		|-- ************************************************************************
 
 ## Instructions for Running the Project:
 - Ensure that you have the necessary software and libraries installed as specified in the project documentation.
