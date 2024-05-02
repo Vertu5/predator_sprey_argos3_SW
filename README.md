@@ -6,11 +6,11 @@ This project focuses on developing and evaluating control software for a swarm o
 ## PROJECT ROOT
 
                               |-- Results/                             # Directory containing all project results
-                              |   |-- locality/                        # Directory for locality data
+                              |   |-- locality/                        # Directory for locality results
                               |   |   |-- cam/                         # Directory for camera-related results
                               |   |   |-- range_and_bearing/           # Directory for range and bearing results
                               |   |
-                              |   |-- Scalability/                     # Directory for scalability analysis results
+                              |   |-- Scalability/                     # Directory for scalability results
                               |   |
                               |   |-- Statistics_analysis/             # Directory for statistical analysis results
                               |
@@ -23,7 +23,7 @@ This project focuses on developing and evaluating control software for a swarm o
                               |-- Project description.pdf              # Project description document
                               |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
                               |-- Paper.pdf                            # Research paper associated with the project
-                              |-- Extend.pdf                           # Additional document extending project findings
+                              |-- Futurwork.pdf                        # Additional document extending project findings
                               |-- build.sh                             # Script for building the project
                               |-- combine_outputs.sh                   # Script for combining project outputs
                               |-- run_experiments.sh                   # Script for running project experiments
