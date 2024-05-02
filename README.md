@@ -5,16 +5,18 @@ This project focuses on developing and evaluating control software for a swarm o
 
 ## 						 PROJECT ROOT
 
-		|-- Data/                             	# Contains all datas 
-		|    |-- CDB001.py                    	# An example of file
-		|                      
-
-		|-- long_term_prediction/             	# LSTM for future prediction 
-		|         |      
-		|         |-- Saved_parameters/       	# Contains weights and biases obtains after training
-
+		|-- Results/                            # Contains all results
+		|    |-- locality/                    	# An example of file
+		|    |    |--cam/                       #
+                |    |    |--range_and bearing/         #
+		|    |   
+                |    |-- Scalability                    #
+                |    |
+		|    |-- Statistics_analysis            #
+		|-- build/             	                # An empty file
+		|         
+                |
 		|-- Keras_MODEL.ipynb                 	# Keras based LSTM 
-
 		|-- LSTM_Class.py                     	# Declaration of LSTM class
 
 		|-- requirements.txt                  	# Packages
@@ -28,9 +30,11 @@ This project focuses on developing and evaluating control software for a swarm o
 ## Instructions for Running the Project:
 - Ensure that you have the necessary software and libraries installed as specified in the project documentation.
 - Clone the project repository to your local machine.
-### 1. Exécution d'une simulation :
-Pour exécuter une seule simulation, utilisez la commande suivante :
+
 Make sure you are in the project directory when executing this command.
+  
+### 1. Exécution d'une simulation :
+To run a single simulation, use the following command: `argos3 -c predatorprey.argos`
 
 ### 2. Running Multiple Simulations:
 If you want to run 100 simulations, use the `run_experiments.sh` script. Before running the script, please follow these steps:
