@@ -3,19 +3,27 @@
 ## Overview:
 This project focuses on developing and evaluating control software for a swarm of robots tasked with capturing a mobile intruder (prey) in a predator-prey scenario. The study explores the use of swarm intelligence and collective behavior to efficiently locate and immobilize the prey. Key objectives include understanding the scalability and locality properties of swarms and designing cooperative swarm robots.
 
-## Contents:
-1. Introduction
-2. Problem Definition
-3. Mathematical Model
-   - Lennard-Jones Potential for Swarm Coordination
-   - Optimal Movement Direction Calculation
-   - Wheel Speed Computation
-   - Dynamic Parameter Adjustment
-4. Results and Analysis
-   - Scalability Analysis
-   - Locality
-5. Conclusion
-6. References
+## 						 PROJECT ROOT
+
+		|-- Data/                             	# Contains all datas 
+		|    |-- CDB001.py                    	# An example of file
+		|                      
+
+		|-- long_term_prediction/             	# LSTM for future prediction 
+		|         |      
+		|         |-- Saved_parameters/       	# Contains weights and biases obtains after training
+
+		|-- Keras_MODEL.ipynb                 	# Keras based LSTM 
+
+		|-- LSTM_Class.py                     	# Declaration of LSTM class
+
+		|-- requirements.txt                  	# Packages
+
+		|-- lstm_train.py             	       	# Contains the definition of the forward and reverse train
+		|-- preprocess.py                  	# LSTM to train a short sequence
+		|-- main_short_term_prediction.ipynb	# Contains an example of execution and the analysis part 
+
+		|-- ************************************************************************
 
 ## Instructions for Running the Project:
 - Ensure that you have the necessary software and libraries installed as specified in the project documentation.
