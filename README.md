@@ -30,7 +30,7 @@ If you want to run 100 simulations, use the `run_experiments.sh` script. Before 
 ```xml
 <visualization />
 ```
-2. Run the run_experiments.sh script using the following command:
+2. Run the run_experiments.sh script using the following command: `./run_experiments.sh`
 ## Getting Started:
 To get started with the project, follow these steps:
 1. Clone the repository: `git clone <repository_url>`
