@@ -14,7 +14,7 @@ This project focuses on developing and evaluating control software for a swarm o
                     |   |
                     |   |-- Statistics_analysis/             # Directory for statistical analysis results
                     |
-                    |-- build/                               # Directory for build-related files
+                    |-- build/                               # An empty directory for build the project by using build.sh
                     |-- src/                                 # Directory for source code
                     | 
                     |-- predator.lua                         # Lua script for predator behavior
