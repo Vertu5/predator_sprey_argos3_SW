@@ -9,9 +9,9 @@ This project focuses on developing and evaluating control software for a swarm o
 		|    |-- locality/                    	# An example of file
 		|    |    |--cam/                       #
                 |    |    |--range_and bearing/         #
-		|    |   
+		|    |                                  #
                 |    |-- Scalability                    #
-                |    |
+                |    |                                  #
 		|    |-- Statistics_analysis            #
 		|-- build/             	                # An empty file
 		|         
