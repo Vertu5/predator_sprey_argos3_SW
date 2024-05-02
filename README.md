@@ -22,6 +22,8 @@ This project focuses on developing and evaluating control software for a swarm o
                     |
                     |-- Project description.pdf              # Project description document
                     |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
+                    |-- argos.pdf                            # Contains how to install the argos on linux Ubuntu 20.04 LTS
+                    |-- footbot.pdf                          # Contains information about the footbot robot using in this simulation
                     |-- Paper.pdf                            # My research paper for this project
                     |-- Futurwork.pdf                        # Additional document extending project
                     |-- build.sh                             # Script for building the project
@@ -31,8 +33,9 @@ This project focuses on developing and evaluating control software for a swarm o
 
 
 ## Instructions for Running the Project:
-- Ensure that you have the necessary software and libraries installed as specified in the project description file.
+- Ensure that you have the necessary software and libraries installed as specified in the argos file.
 - Clone the project repository to your local machine.
+- Compile the code  `./build.sh`.
 
 Make sure you are in the project directory when executing this command.
   
