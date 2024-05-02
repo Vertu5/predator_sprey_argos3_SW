@@ -22,8 +22,8 @@ This project focuses on developing and evaluating control software for a swarm o
                               |
                               |-- Project description.pdf              # Project description document
                               |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
-                              |-- Paper.pdf                            # Research paper associated with the project
-                              |-- Futurwork.pdf                        # Additional document extending project findings
+                              |-- Paper.pdf                            # My research paper for this project
+                              |-- Futurwork.pdf                        # Additional document extending project
                               |-- build.sh                             # Script for building the project
                               |-- combine_outputs.sh                   # Script for combining project outputs
                               |-- run_experiments.sh                   # Script for running project experiments
