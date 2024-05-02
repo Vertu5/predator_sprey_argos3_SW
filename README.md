@@ -24,7 +24,7 @@ This project focuses on developing and evaluating control software for a swarm o
                     |-- argos.pdf                            # Contains how to install the argos on linux Ubuntu 20.04 LTS
                     |-- footbot.pdf                          # Contains information about the footbot robot using in this simulation
                     |-- Paper.pdf                            # My research paper for this project
-                    |-- Futurwork.pdf                        # Additional document extending project
+                    |-- FuturWork.pdf                        # Additional document extending project
                     |
                     |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
                     |
