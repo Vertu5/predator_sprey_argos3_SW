@@ -6,6 +6,7 @@ This project focuses on developing and evaluating control software for a swarm o
 ## 						 PROJECT ROOT
 
 		|-- Results/                            # Contains all results
+  
 		|    |-- locality/                    	# An example of file
 		|    |    |--cam                        #
                 |    |    |--range_and bearing          #
@@ -16,10 +17,8 @@ This project focuses on developing and evaluating control software for a swarm o
 		|-- build/             	                # An empty file
 		|         
                 |
-		|-- Keras_MODEL.ipynb                 	# Keras based LSTM 
-		|-- LSTM_Class.py                     	# Declaration of LSTM class
-
-		|-- requirements.txt                  	# Packages
+		|-- predator.lua                 	# 
+		|-- prey.lua                     	# 
 
 		|-- lstm_train.py             	       	# Contains the definition of the forward and reverse train
 		|-- preprocess.py                  	# LSTM to train a short sequence
