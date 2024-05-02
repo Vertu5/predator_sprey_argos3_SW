@@ -21,11 +21,13 @@ This project focuses on developing and evaluating control software for a swarm o
                     |-- prey.lua                             # Lua script for prey behavior
                     |
                     |-- Project description.pdf              # Project description document
-                    |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
                     |-- argos.pdf                            # Contains how to install the argos on linux Ubuntu 20.04 LTS
                     |-- footbot.pdf                          # Contains information about the footbot robot using in this simulation
                     |-- Paper.pdf                            # My research paper for this project
                     |-- Futurwork.pdf                        # Additional document extending project
+                    |
+                    |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
+                    |
                     |-- build.sh                             # Script for building the project
                     |-- combine_outputs.sh                   # Script for combining project outputs
                     |-- run_experiments.sh                   # Script for running project experiments
