@@ -5,7 +5,7 @@ This project focuses on developing and evaluating control software for a swarm o
 
 ## 						 PROJECT ROOT
 
-		|-- Results//                           		# Contains all results
+		|-- Results/	                           		# Contains all results
 		|    |-- locality/                    			# An example of file
                 |    |    |
 		|    |    |--cam/                       		#
