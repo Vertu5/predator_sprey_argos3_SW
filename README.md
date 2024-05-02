@@ -7,8 +7,8 @@ This project focuses on developing and evaluating control software for a swarm o
 
 		|-- Results/                            # Contains all results
 		|    |-- locality/                    	# An example of file
-		|    |    |--cam/                       #
-                |    |    |--range_and bearing/         #
+		|    |    |--cam                        #
+                |    |    |--range_and bearing          #
 		|    |                                  #
                 |    |-- Scalability                    #
                 |    |                                  #
