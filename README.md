@@ -5,29 +5,29 @@ This project focuses on developing and evaluating control software for a swarm o
 
 ## PROJECT ROOT
 
-                              |-- Results/                             # Directory containing all project results
-                              |   |-- locality/                        # Directory for locality results
-                              |   |   |-- cam/                         # Directory for camera-related results
-                              |   |   |-- range_and_bearing/           # Directory for range and bearing results
-                              |   |
-                              |   |-- Scalability/                     # Directory for scalability results
-                              |   |
-                              |   |-- Statistics_analysis/             # Directory for statistical analysis results
-                              |
-                              |-- build/                               # Directory for build-related files
-                              |-- src/                                 # Directory for source code
-                              | 
-                              |-- predator.lua                         # Lua script for predator behavior
-                              |-- prey.lua                             # Lua script for prey behavior
-                              |
-                              |-- Project description.pdf              # Project description document
-                              |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
-                              |-- Paper.pdf                            # My research paper for this project
-                              |-- Futurwork.pdf                        # Additional document extending project
-                              |-- build.sh                             # Script for building the project
-                              |-- combine_outputs.sh                   # Script for combining project outputs
-                              |-- run_experiments.sh                   # Script for running project experiments
-                              |-- ************************************************************************
+                    |-- Results/                             # Directory containing all project results
+                    |   |-- locality/                        # Directory for locality results
+                    |   |   |-- cam/                         # Directory for camera-related results
+                    |   |   |-- range_and_bearing/           # Directory for range and bearing results
+                    |   |
+                    |   |-- Scalability/                     # Directory for scalability results
+                    |   |
+                    |   |-- Statistics_analysis/             # Directory for statistical analysis results
+                    |
+                    |-- build/                               # Directory for build-related files
+                    |-- src/                                 # Directory for source code
+                    | 
+                    |-- predator.lua                         # Lua script for predator behavior
+                    |-- prey.lua                             # Lua script for prey behavior
+                    |
+                    |-- Project description.pdf              # Project description document
+                    |-- instable_state_seed_88852.mp4        # Video demonstrating an unstable state
+                    |-- Paper.pdf                            # My research paper for this project
+                    |-- Futurwork.pdf                        # Additional document extending project
+                    |-- build.sh                             # Script for building the project
+                    |-- combine_outputs.sh                   # Script for combining project outputs
+                    |-- run_experiments.sh                   # Script for running project experiments
+                    |-- ************************************************************************
 
 
 ## Instructions for Running the Project:
