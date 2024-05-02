@@ -31,7 +31,7 @@ This project focuses on developing and evaluating control software for a swarm o
 
 
 ## Instructions for Running the Project:
-- Ensure that you have the necessary software and libraries installed as specified in the project documentation.
+- Ensure that you have the necessary software and libraries installed as specified in the project description file.
 - Clone the project repository to your local machine.
 
 Make sure you are in the project directory when executing this command.
@@ -47,13 +47,7 @@ If you want to run 100 simulations, use the `run_experiments.sh` script. Before 
 ```
 2. Run the run_experiments.sh script using the following command: `./run_experiments.sh`
 3. Next, run the combine_output.sh script to combine the latest line from all outputs, using the following command: `./combine_output.sh`
-## Getting Started:
-To get started with the project, follow these steps:
-1. Clone the repository: `git clone <repository_url>`
-2. Create an empty folder and name it build
-3. Install the required dependencies and software as specified in the project documentation.
-4. Run the simulations using the provided control software.
-
+   
 ## Contact:
 For questions or inquiries about the project, please contact:
 - Ndinga Oba Olivier: [obavertu@gmail.com](mailto:obavertu@gmail.com) 
