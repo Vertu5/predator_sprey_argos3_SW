@@ -36,7 +36,7 @@ This project focuses on developing and evaluating control software for a swarm o
 
 Make sure you are in the project directory when executing this command.
   
-### 1. Exécution d'une simulation :
+### 1. Running Single Simulation :
 To run a single simulation, use the following command: `argos3 -c predatorprey.argos`
 
 ### 2. Running Multiple Simulations:
