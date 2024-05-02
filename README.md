@@ -29,6 +29,7 @@ If you want to run 100 simulations, use the `run_experiments.sh` script. Before 
 1. Ensure visualization is turned off the visualization by modifying the visualization section in the `predatorprey.argos` configuration file. Replace it with:
 ```xml
 <visualization />
+```
 2. Run the run_experiments.sh script using the following command:
 ## Getting Started:
 To get started with the project, follow these steps:
