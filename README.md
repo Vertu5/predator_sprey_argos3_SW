@@ -14,16 +14,16 @@ This project focuses on developing and evaluating control software for a swarm o
                 |    |-- Scalability/                   		#
                 |    |                                  		#
 		|    |-- Statistics_analysis/           		#
-		|-- build/             	                		# An empty file
-		|         
                 |
+		|-- build/             	                		# An empty file
+		| 
 		|-- predator.lua                 			# 
 		|-- prey.lua                     			# 
 
-		|-- Project description             			# Contains the definition of the forward and reverse train
-		|-- instable_state_seed_88852.mp4                  	# LSTM to train a short sequence
-		|-- main_short_term_prediction.ipynb			# Contains an example of execution and the analysis part 
-
+		|-- Project description.pdf             		# 
+		|-- instable_state_seed_88852.mp4                  	# 
+		|-- Paper.pdf						#  
+                |-- Extend.pdf                                          #
 		|-- ************************************************************************
 
 ## Instructions for Running the Project:
