@@ -52,7 +52,6 @@ To get started with the project, follow these steps:
 2. Create an empty folder and name it build
 3. Install the required dependencies and software as specified in the project documentation.
 4. Run the simulations using the provided control software.
-5. Analyze the results and refer to the README for insights and conclusions drawn from the experiments.
 
 ## Contact:
 For questions or inquiries about the project, please contact:
